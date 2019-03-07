@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+
+    <script type="text/javascript" th:src="@{/webjars/jquery/3.3.1/dist/jquery.min.js}"></script>
+    <script type="text/javascript" th:src="@{/webjars/bootstrap/4.1.3/js/bootstrap.min.js}"></script>
+    <script type="text/javascript" th:src="@{/js/main.js}"></script>
+    <link type="text/css" rel="stylesheet" th:href="@{/webjars/bootstrap/4.1.3/css/bootstrap.min.css}"/>
+    <link type="text/css" rel="stylesheet" th:href="@{/css/main.css}"/>
+</head>
+
+<body>
+
+<div th:replace="~{navigation :: navi(Home)}"/>
+
+<div class="container">
+    <h1>Order complete page</h1>
+
+    <table class="table-bordered table-hover" th:object="${shopOrder}">
+        <thead>
+        <tr>
+            <th th:text="Title">Title</th>
+            <th th:text="Quantity">Quantity</th>
+            <th th:text="Price">Price</th>
+            <th th:text="Subtotal">Subtotal</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="cartItem : *{cartItemList}">
+            <td th:text="${cartItem.product.title}">title</td>
+            <td th:text="${cartItem.quantity}">quantity</td>
+            <td th:text="${cartItem.product.price}">price</td>
+            <td th:text="${cartItem.subtotal}">subtotal</td>
+        </tr>
+        <tr>
+            <td>
+                <p align="center">Total</p>
+            </td>
+            <td></td>
+            <td>
+            <td/>
+            <!--<td th:text="${shopOrder.totalPrice}">Total price</td>-->
+        </tr>
+        </tbody>
+    </table>
+
+
+
+</div>
+</body>
+</html>

@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Admin Panel</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+
+    <script type="text/javascript" th:src="@{/webjars/jquery/3.3.1/dist/jquery.min.js}"></script>
+    <script type="text/javascript" th:src="@{/webjars/bootstrap/4.1.3/js/bootstrap.min.js}"></script>
+    <script type="text/javascript" th:src="@{/js/main.js}"></script>
+    <link type="text/css" rel="stylesheet" th:href="@{/webjars/bootstrap/4.1.3/css/bootstrap.min.css}"/>
+    <link type="text/css" rel="stylesheet" th:href="@{/css/main.css}"/>
+    <link rel="icon" type="image/png" th:href="@{/favicon.ico}" />
+</head>
+
+<body>
+
+<div th:replace="~{navigation :: navi(AdminDashboard)}"/>
+
+<div class="container">
+    <h1>Admin Panel</h1>
+
+    <a th:href="@{/admin/products/add}">Add products</a>
+    <table class="table-bordered table-hover">
+        <thead>
+        <tr>
+            <th th:text="id">ID</th>
+            <th th:text="title">title</th>
+            <th th:text="description">description</th>
+            <th th:text="price">price</th>
+            <th th:text="photo">photo</th>
+            <th th:text="category">category</th>
+            <th th:text="vendor">vendor</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="product : ${productList}">
+            <td th:text="${product.id}">productId</td>
+            <td th:text="${product.title}">productTitle</td>
+            <td th:text="${product.description}">description</td>
+            <td th:text="${product.price}">price</td>
+            <td th:text="${product.photoName}">photo</td>
+            <td th:text="${product.category.title}">category</td>
+            <td th:text="${product.vendorId}">vendor</td>
+            <td>
+                <a th:href="@{/admin/products/edit(id = ${product.id})}">edit</a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+</body>
+</html>

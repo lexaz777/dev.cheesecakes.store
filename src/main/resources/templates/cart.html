@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+
+    <script type="text/javascript" th:src="@{/webjars/jquery/3.3.1/dist/jquery.min.js}"></script>
+    <script type="text/javascript" th:src="@{/webjars/bootstrap/4.1.3/js/bootstrap.min.js}"></script>
+    <script type="text/javascript" th:src="@{/js/main.js}"></script>
+    <script src="https://unpkg.com/vue"></script>
+    <link type="text/css" rel="stylesheet" th:href="@{/webjars/bootstrap/4.1.3/css/bootstrap.min.css}"/>
+    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
+    <link type="text/css" rel="stylesheet" th:href="@{/css/main.css}"/>
+</head>
+
+<body>
+
+<div th:replace="~{navigation :: navi(Home)}"/>
+
+<div class="container">
+    <h1>Welcome page</h1>
+
+    <div sec:authorize="isAuthenticated()">
+        Authenticated username:
+        <div sec:authentication="principal.username"></div>
+        Authenticated user roles:
+        <div sec:authentication="principal.authorities"></div>
+    </div>
+
+    <!--<div sec:authorize access="hasAnyRole('ADMIN', 'USER')">-->
+    <div sec:authorize="hasRole('ADMIN')">
+        This content will only be visible to users who have the "supervisor" authority in their list of <tt>GrantedAuthority</tt>s.
+    </div>
+    <!--   <a th:href="@{/}" th:type="button">Shop more</a>-->
+<!--    <table class="table-bordered table-hover">
+        <thead>
+        <tr>
+            <th th:text="Title">Title</th>
+            <th th:text="Quantity">Quantity</th>
+            <th th:text="Price">Price</th>
+            <th th:text="Subtotal">Subtotal</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="cartItem : ${shoppingCart.cartItems}">
+            <td th:text="${cartItem.product.title}">title</td>
+            <td th:text="${cartItem.quantity}">quantity</td>
+            <td th:text="${cartItem.product.price}">price</td>
+            <td th:text="${cartItem.subtotal}">subtotal</td>
+            <td>
+                <a th:href="@{/cart/remove(id = ${cartItem.product.id})}">remove</a>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <p align="center">Total</p>
+            </td>
+            <td
+            </td>
+            <td>
+            <td/>
+            <td th:text="${shoppingCart.totalPrice}">Total price</td>
+        </tr>
+        </tbody>
+    </table>-->
+
+    <!--    <form th:action="@{/order/create}" th:object="${shoppingCart}">
+            <button th:type="submit">Fill order</button>
+        </form>-->
+
+    <div class="container">
+        <table id="cart" class="table table-hover table-condensed">
+            <thead>
+            <tr>
+                <th style="width:50%">Product</th>
+                <th style="width:10%">Price</th>
+                <th style="width:8%">Quantity</th>
+                <th style="width:22%" class="text-center">Subtotal</th>
+                <th style="width:10%"></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="cartItem : ${shoppingCart.cartItems}">
+                <td data-th="Product">
+                    <div class="row">
+                        <div class="col-sm-2 hidden-xs"><img th:src="@{'/img/' + ${cartItem.product.photoName}}"
+                                                             alt="..."
+                                                             class="img-responsive" style="width:100px; height:100px;"/></div>
+                        <div class="col-sm-10">
+                            <h4 class="nomargin" th:text="${cartItem.product.title}">Product 1</h4>
+                            <p th:text="${cartItem.product.description}">Description</p>
+                        </div>
+                    </div>
+                </td>
+                <td data-th="Price" th:text="${cartItem.product.price}">$1.99</td>
+                <td data-th="Quantity" >
+                    <input  th:value="${cartItem.quantity}" type="number" class="form-control text-center" value="1">
+                </td>
+                <td data-th="Subtotal" class="text-center" th:text="${cartItem.subtotal}">1.99</td>
+                <td class="actions" data-th="">
+                    <button class="btn btn-info btn-sm"><i class="fa fa-refresh"></i></button>
+                    <button class="btn btn-danger btn-sm" th:attr="id=${cartItem.product.id}"><i class="fa fa-trash-o"></i></button>
+                </td>
+            </tr>
+            </tbody>
+            <tfoot>
+            <tr class="visible-xs">
+                <td class="text-center"><strong th:text="Total + ${shoppingCart.totalPrice}">Total 1.99</strong></td>
+            </tr>
+            <tr>
+                <td><a th:href="@{/}" class="btn btn-warning"><i class="fa fa-angle-left"></i> Continue Shopping</a>
+                </td>
+                <td colspan="2" class="hidden-xs"></td>
+                <td class="hidden-xs text-center" th:text="Total + ${shoppingCart.totalPrice}"><strong>Total $1.99</strong></td>
+                <td>
+                   <!-- <a href="#" class="btn btn-success btn-block">Checkout <i class="fa fa-angle-right"></i>-->
+                        <form th:action="@{/order/create}" th:object="${shoppingCart}">
+                            <button class="btn btn-success btn-block" th:type="submit">Checkout <i class="fa fa-angle-right"></i></button>
+                        </form>
+                    </a>
+                </td>
+            </tr>
+            </tfoot>
+        </table>
+    </div>
+
+</div>
+</body>
+</html>
