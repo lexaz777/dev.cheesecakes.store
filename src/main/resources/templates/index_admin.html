@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+
+    <link type="text/css" rel="stylesheet" th:href="@{/webjars/bootstrap/4.1.3/css/bootstrap.min.css}"/>
+    <link type="text/css" rel="stylesheet" th:href="@{/css/main.css}"/>
+    <link rel="icon" type="image/png" th:href="@{/favicon.ico}"/>
+</head>
+
+<body>
+
+<div th:replace="~{navigation :: navi(Home)}"/>
+
+<div class="container">
+    <div sec:authorize="isAuthenticated()">
+        Authenticated username:
+        <div sec:authentication="principal.username"></div>
+        Authenticated user roles:
+        <div sec:authentication="principal.authorities"></div>
+    </div>
+
+    <!--<div sec:authorize access="hasAnyRole('ADMIN', 'USER')">-->
+    <div sec:authorize="hasRole('ADMIN')">
+        This content will only be visible to users who have the "supervisor" authority in their list of <tt>GrantedAuthority</tt>s.
+    </div>
+
+<!--    <form th:action="@{/filter}" th:method="GET" th:object="${filter}">
+        <input th:field="*{minPrice}" th:type="text" th:placeholder="'Min Price'" title="Min Price">
+        <input th:field="*{maxPrice}" th:type="text" th:placeholder="'Max Price'" title="Max Price">
+        <button th:type="submit">Filter</button>
+    </form>-->
+    <table class="table-bordered table-hover">
+        <thead>
+        <tr>
+            <th th:text="id">ID</th>
+            <th th:text="title">title</th>
+            <th th:text="description">description</th>
+            <th th:text="price">price</th>
+            <th th:text="photo">photo</th>
+            <th th:text="category">category</th>
+            <th th:text="vendor">vendor</th>
+        </tr>
+        </thead>
+        <tbody>
+        <!--<tr th:each="product : ${productList}">
+            <td th:text="${product.id}">productId</td>
+            <td th:text="${product.title}">productTitle</td>
+            <td th:text="${product.description}">description</td>
+            <td th:text="${product.price}">price</td>
+            <td><img th:src="@{'/img/' + ${product.photoName}}" style="width:240px; height:240px;"></td>
+            <td th:text="${product.category.title}">category</td>
+            <td th:text="${product.vendorId}">vendor</td>
+            <td>
+                &lt;!&ndash;<a th:href="@{/cart/add(id = ${product.id})}" class="buy-item">buy</a>&ndash;&gt;
+                <div class="item" th:data="${product.id}">
+                    <button class="btn btn-primary">Add to cart</button>
+                </div>
+            </td>
+        </tr>-->
+        </tbody>
+    </table>
+</div>
+<script type="text/javascript" th:src="@{/webjars/jquery/3.3.1/dist/jquery.min.js}"></script>
+<script type="text/javascript" th:src="@{/webjars/bootstrap/4.1.3/js/bootstrap.min.js}"></script>
+<script src="https://unpkg.com/vue"></script>
+<script type="text/javascript" th:src="@{/js/main.js}"></script>
+</body>
+</html>
